@@ -1,19 +1,22 @@
 package com.kostiago.backend.resources;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kostiago.backend.entities.Category;
+import com.kostiago.backend.services.CategoryService;
 
 @RestController
-@RequestMapping(value = "categories")
+@RequestMapping(value = "/categories")
 public class CategoryResource {
     
+    @Autowired
+    private CategoryService service;
     /**
      * Metodo para retornar todas as categorias
      * @return retorna todas as categorias se tiver
@@ -21,10 +24,9 @@ public class CategoryResource {
     @GetMapping
     public ResponseEntity<List<Category>> findAll (){
 
-        List<Category> category = new ArrayList<>();
-        category.add(new Category(1L, "Livros"));
-        category.add(new Category(2L, "Eletronicos"));
+        
+        List<Category> list = service.findAll();
 
-        return ResponseEntity.ok().body(category);
+        return ResponseEntity.ok().body(list);
     }
 }
