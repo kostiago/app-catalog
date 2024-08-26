@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kostiago.backend.dto.CategoryDTO;
 import com.kostiago.backend.entities.Category;
 import com.kostiago.backend.repositories.CategoryRepository;
+import com.kostiago.backend.services.exceptions.EntityNotFoundExeception;
 
 @Service
 public class CategoryService {
@@ -28,7 +29,7 @@ public class CategoryService {
 
     public CategoryDTO findById(Long id) {
         Optional<Category> obj = repository.findById(id);
-        Category entity = obj.get();
+        Category entity = obj.orElseThrow(() -> new EntityNotFoundExeception("Entity not found"));
         return new CategoryDTO(entity);
     }
 }
